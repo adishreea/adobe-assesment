@@ -16,5 +16,4 @@ Please implement as a command line program.
 
 ## How to run
 
-- In terminal, enter `node index.ts`
-- `npm run start`
+- In terminal, enter `npm run start`

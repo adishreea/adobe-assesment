@@ -11,7 +11,7 @@ jsonData.leads?.forEach((curObj: DataType) => {
   console.log(`\nCurrent record => ${JSON.stringify(curObj)}`);
 
   const objKey: ObjKeyType = { id: curObj._id, email: curObj.email };
-  const dupObj = findDuplicate(dataMap, objKey);
+  const dupObj: DataType = findDuplicate(dataMap, objKey);
   if (dupObj) {
     console.log('Status: Duplicate');
     console.log(`Existing record => ${JSON.stringify(dupObj)}`);
@@ -19,7 +19,7 @@ jsonData.leads?.forEach((curObj: DataType) => {
     const dupObjDate: Date = new Date(dupObj.entryDate);
     const curObjDate: Date = new Date(curObj.entryDate);
     if (curObjDate >= dupObjDate) {
-      console.log('Replacing with the latest record');
+      logDifferences(curObj, dupObj);
       dataMap.set(objKey, curObj);
     }
   } else {
@@ -43,4 +43,15 @@ function findDuplicate(
       return entry[1];
     }
   }
+}
+
+function logDifferences(curObj: DataType, dupObj: DataType) {
+  console.log('Replacing with the latest record, field differences as below:');
+
+  Object.keys(curObj).forEach((key) => {
+    if (curObj[key] != dupObj[key]) {
+      console.log(`From value of '${key}': ${dupObj[key]}`);
+      console.log(`To value of '${key}': ${curObj[key]}`);
+    }
+  });
 }
